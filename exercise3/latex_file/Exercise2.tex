@@ -1,0 +1,85 @@
+\documentclass[12pt]{scrartcl}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+\addtokomafont{section}{\normalsize}
+\setlength{\parindent}{0pt}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\ve}{\vect}
+\newcommand\R{\mathbb{R}}
+\newcommand\E{\mathbb{E}}
+\newcommand{\fx}[1]{#1(\vect{x})}
+\newcommand{\diff}[1]{\,\mathrm{d}#1}
+
+\title{\large Machine Learning Exercise Sheet 1}
+\subtitle{\Large Math Refresher}
+\author{\large\bfseries Group\_369 \\
+        \large Fan \textsc{Xue} -- \texttt{fan98.xue@tum.de} \\
+        \large Xing \textsc{Zhou} -- \texttt{xing.zhou@tum.de} \\
+        \large Jianzhe \textsc{Liu} -- \texttt{jianzhe.liu@tum.de}}
+\date{\large \today}
+\begin{document}
+
+  \maketitle
+  \vspace{-1cm}
+  \noindent\rule{\textwidth}{0.4pt}
+
+  \section*{Problem 8}
+  To proof this, we need to proof a Lemma first.
+
+  \textbf{Lemma}:
+
+  \quad For $ a, b, c > 0 $, $0 < \lambda < 1 $, if $ c = \lambda a + (1 - \lambda) b $, then c lies between a and b. \\
+  \textbf{Proof}: 
+
+  Assuming that $a < b$, we have
+  \[
+    \begin{split}
+      c - a = (\lambda - 1)a + (1 - \lambda)b = (1 - \lambda)(b - a) > 0
+      c - b = \lambda a - \lambda b = \lambda (a - b) < 0
+    \end{split}
+  \]
+  that indicates that c lies bewteen a and b.
+
+  Now we change bach to the problem.
+
+  According to the given information, we know that the \textbf{prior distribution} \(p(\theta) = Beta(a, b)\), and the \textbf{likelihood} \(p(D|\theta) = Binary(m, N, \theta)\). That is
+  \[
+    \begin{split}
+      p(\theta) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)}\theta^{a - 1}(1 - \theta)^{b - 1}  \\
+      p(D|\theta) = C_N^m\theta^m(1 \ \theta)^{N - m}
+    \end{split}  
+  \]
+  We can know that the \textbf{posterior distribution}
+  \[
+    \begin{split}
+      p(\theta|D) \sim p(D|\theta)p(\theta) \sim \theta^{a + m - 1}(1 - \theta)^{b + N - m - 1}
+    \end{split}
+  \]
+  Obviously the \textbf{posterior distribution} is a Beta distribution, that is
+  \[
+    p(\theta|D) \sim Beta(a+m, b+N-m)
+  \]
+  Let \(\log p(D|\theta) = 0\), we can find the maximum likelihood estimate
+  \[
+    \theta_{MLE} = \frac{m}{N}
+  \]
+  From the konwledge of Beta distribution, we know the posterior mean value of \(\theta\)
+  \[
+    \E(\theta|D) = \frac{a+m}{a + b + N}
+  \] 
+  and the prior mean of \(\theta\)
+  \[
+    \E(\theta) = \frac{a}{a + b}
+  \]
+  We can rewrite the posterior mean of \(\theta\) as following
+  \[
+    \begin{split}
+      \E(\theta|D) = \frac{a+m}{a + b + N} = \frac{N}{a+b+N} \cdot \frac{m}{N} + \frac{a+b}{a+b+N} \cdot \frac{a}{a + b}
+      = \lambda \E(\theta) + (1-\lambda)\theta_{MLE}
+    \end{split}
+  \]
+  From the lemma we can proof that $\E{\theta}$ lies between $\E(\theta)$ and $\theta_{MLE}$.
+  
+ 
+\end{document}

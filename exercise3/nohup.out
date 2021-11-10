@@ -1,0 +1,28 @@
+[C 21:21:08.553 NotebookApp] No such file or directory: /home/zhouxing/Documents/ml/exercise3/exercise_03_pro_inference.ipynb
+[C 21:21:24.423 NotebookApp] No such file or directory: /home/zhouxing/Documents/ml/exercise3/exercise_03_pro_inference.ipynb
+[C 21:21:31.757 NotebookApp] No such file or directory: /home/zhouxing/Documents/ml/exercise3/exercise_03_pro_inference.ipynb
+[I 21:22:29.164 NotebookApp] Serving notebooks from local directory: /home/zhouxing/Documents/ml/exercise3
+[I 21:22:29.164 NotebookApp] Jupyter Notebook 6.4.5 is running at:
+[I 21:22:29.164 NotebookApp] http://localhost:8888/?token=627b220087106878beba01cdc63f8bdc105fb6d57a32cad1
+[I 21:22:29.164 NotebookApp]  or http://127.0.0.1:8888/?token=627b220087106878beba01cdc63f8bdc105fb6d57a32cad1
+[I 21:22:29.164 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 21:22:29.194 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/zhouxing/.local/share/jupyter/runtime/nbserver-33356-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8888/?token=627b220087106878beba01cdc63f8bdc105fb6d57a32cad1
+     or http://127.0.0.1:8888/?token=627b220087106878beba01cdc63f8bdc105fb6d57a32cad1
+ERROR:asyncio:Exception in callback <TaskWakeupMethWrapper object at 0x7f04c49536a0>(<Future finis...252"\r\n\r\n'>)
+handle: <Handle <TaskWakeupMethWrapper object at 0x7f04c49536a0>(<Future finis...252"\r\n\r\n'>)>
+Traceback (most recent call last):
+  File "/home/zhouxing/anaconda3/envs/ml/lib/python3.8/asyncio/events.py", line 81, in _run
+    self._context.run(self._callback, *self._args)
+RuntimeError: Cannot enter into task <Task pending name='Task-11' coro=<HTTP1ServerConnection._server_request_loop() running at /home/zhouxing/anaconda3/envs/ml/lib/python3.8/site-packages/tornado/http1connection.py:823> wait_for=<Future finished result=b'GET /api/co...a252"\r\n\r\n'> cb=[IOLoop.add_future.<locals>.<lambda>() at /home/zhouxing/anaconda3/envs/ml/lib/python3.8/site-packages/tornado/ioloop.py:688]> while another task <Task pending name='Task-2' coro=<KernelManager._async_start_kernel() running at /home/zhouxing/anaconda3/envs/ml/lib/python3.8/site-packages/jupyter_client/manager.py:331>> is being executed.
+[I 21:22:32.560 NotebookApp] Kernel started: 7b45a9f7-5ef5-4ce1-aeb6-3d023423d5ca, name: python3
+[W 21:22:33.224 NotebookApp] 404 GET /static/components/MathJax/fonts/HTML-CSS/TeX/otf/MathJax_Script-Regular.otf (127.0.0.1) 7.060000ms referer=http://localhost:8888/notebooks/exercise_03_prob_inference.ipynb
+[C 02:38:31.575 NotebookApp] received signal 15, stopping
+[I 02:38:32.001 NotebookApp] Shutting down 1 kernel
+[I 02:38:32.062 NotebookApp] Kernel shutdown: 7b45a9f7-5ef5-4ce1-aeb6-3d023423d5ca
+[I 02:38:32.081 NotebookApp] Starting buffering for 7b45a9f7-5ef5-4ce1-aeb6-3d023423d5ca:fe2c96724fd2495c8d08699f2f60bf31
+[I 02:38:32.143 NotebookApp] Shutting down 0 terminals
