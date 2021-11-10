@@ -1,0 +1,57 @@
+\documentclass[12pt]{scrartcl}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+\addtokomafont{section}{\normalsize}
+\setlength{\parindent}{0pt}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\fx}[1][f]{#1(\vect{x})}
+\newcommand{\diff}[1]{\,\mathrm{d}#1}
+\newcommand{\p}[1][\mathrm{p}]{\mathrm{#1}}
+
+\title{\large Machine Learning Exercise Sheet 1}
+\subtitle{\Large Math Refresher}
+\author{\large\bfseries Group\_369 \\
+        \large Fan \textsc{Xue} -- \texttt{fan98.xue@tum.de} \\
+        \large Xing \textsc{Zhou} -- \texttt{xing.zhou@tum.de} \\
+        \large Jianzhe \textsc{Liu} -- \texttt{jianzhe.liu@tum.de}}
+\date{\large \today}
+\begin{document}
+  
+  \maketitle
+  \vspace{-1cm}
+  \noindent\rule{\textwidth}{0.4pt}
+  
+  \section*{Problem 9}
+  
+  The MAP estimation of the parameter $\lambda$ is:  
+  \begin{equation*}
+    \begin{split}
+      \lambda_{MAP} &= \argmax_\lambda\,\p(\lambda\mid x, a, b) \\
+                    &= \argmax_\lambda\,\log \p(\lambda\mid x, a, b) \\
+                    &= \argmax_\lambda\,\log (\p(x\mid\lambda)\,\p(\lambda\mid a,b)) \\
+                    &= \argmax_\lambda\,\log (\frac{b^a \lambda^{a-1} \exp(-b\lambda)}{\Gamma(a)} \frac{\lambda^x \exp(-\lambda)}{x!}) \\
+                    &= \argmax_\lambda\,(a-1+x)\log \lambda -(b+1)\lambda + const 
+    \end{split}
+  \end{equation*}
+  In order to maximize the function, compute the derivative:
+  \begin{equation*}
+    \frac{\partial}{\partial\lambda}((a-1+x)\log \lambda -(b+1)\lambda + const) = \frac{a-1+x}{\lambda}-b-1 \stackrel{!}{=} 0
+  \end{equation*}
+  Then we get
+  \begin{equation*}
+    \lambda = \frac{x+a-1}{b+1}
+  \end{equation*}
+  Hence $\lambda_{MAP}=\frac{x+a-1}{b+1}$.
+
+  % \begin{enumerate}[label=\alph*)]
+    % \item 
+  % \end{enumerate}
+
+  
+
+\end{document}

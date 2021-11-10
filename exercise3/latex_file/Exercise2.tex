@@ -11,6 +11,10 @@
 \newcommand{\fx}[1]{#1(\vect{x})}
 \newcommand{\diff}[1]{\,\mathrm{d}#1}
 
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\p}[1][\mathrm{p}]{\mathrm{#1}}
+
 \title{\large Machine Learning Exercise Sheet 1}
 \subtitle{\Large Math Refresher}
 \author{\large\bfseries Group\_369 \\
@@ -24,6 +28,58 @@
   \vspace{-1cm}
   \noindent\rule{\textwidth}{0.4pt}
 
+  \section*{Problem 6}
+  
+  First let's compute the first and second derivative of $\theta^t(1-\theta)^h$, According to the derivative calculation rule:
+  \begin{equation*}
+    \begin{aligned}
+      \frac{\diff{}}{\diff{\theta}}\theta^t(1-\theta)^h &= t\theta^{t-1}(1-\theta)^h + \theta^t(-1)h(1-\theta)^{h-1}  \\
+                  &= \theta^{t-1}(1-\theta)^{h-1}*((1-\theta)t-\theta h)
+    \end{aligned}
+  \end{equation*}
+  \begin{equation*}
+    \begin{aligned}
+      \frac{\diff{}^2}{\diff{\theta}^2}\theta^t(1-\theta)^h &= \frac{\diff{}}{\diff{\theta}}\left( t\theta^{t-1}(1-\theta)^h + \theta^t(-1)h(1-\theta)^{h-1} \right)  \\
+                  &= \theta^{t-2}(1-\theta)^{h-2}*((1-\theta)(t-1)-\theta(h-1))*((1-\theta)t-\theta h) - \theta^{t-1}(1-\theta)^{h-1}(t+h)
+    \end{aligned}
+  \end{equation*}  
+  It's quite obvious that as the derivation goes on, the result becomes much more complex, which is really hard for us to read and analyse.
+  \\
+  \\
+  Then let's try computing the first and second derivative of $\log \theta^t(1-\theta)^h$:
+  \[f(\theta) = \log \theta^t(1-\theta)^h = t\log \theta + h\log (1 - \theta)\]
+  \begin{equation*}
+    \begin{aligned}
+      \frac{\diff{}}{\diff{\theta}}f(\theta) &= \frac{t}{\theta} - \frac{h}{1 - \theta}  \\
+    \end{aligned}
+  \end{equation*}
+  \begin{equation*}
+    \begin{aligned}
+      \frac{\diff{}^2}{\diff{\theta}^2}f(\theta) &= \frac{\diff{}}{\diff{\theta}}\left( \frac{t}{\theta} - \frac{h}{1 - \theta} \right)  \\
+                  &= -\frac{t}{\theta^2} - \frac{h}{(1 - \theta)^2}
+    \end{aligned}
+  \end{equation*}   
+  This time the result is much more clear, and it is of course easier for us to do the further calculation or analysis. 
+    
+    \section*{Problem 7}
+    
+  To prove this, let's say we have an arbitrary local maximum $\theta_a$ in $\log f(\theta)$, obviously in any small range around $\theta_a$, we have $\log f(\theta_a) \geq \log f(\theta)$.
+  \\
+  \\
+  Then we use function $exp$ to transform $\log f(\theta)$ into $f(\theta)$.
+  \\
+  \\
+  Since function $exp$ is monotone, we have:
+  \[f(\theta_a) = e^{\log f(\theta_a)} \geq f(\theta) = e^{\log f(\theta)}\]
+  Therefore $\theta_a$ is also a maximum of $f(\theta)$.
+  \\
+  \\
+  Conclusion: with the result of last problem, we know the using function $log$ can help us simplify the calculation and thus the further analysis. And with the result of this problem we know that by using $log$ transform, the feature of the original equations remain unchanged, which means we can safely apply this transform in further studies.
+  
+
+
+
+  
   \section*{Problem 8}
   To proof this, we need to proof a Lemma first.
 
@@ -81,5 +137,30 @@
   \]
   From the lemma we can proof that $\E{\theta}$ lies between $\E(\theta)$ and $\theta_{MLE}$.
   
+  \section*{Problem 9}
+  
+  The MAP estimation of the parameter $\lambda$ is:  
+  \begin{equation*}
+    \begin{split}
+      \lambda_{MAP} &= \argmax_\lambda\,\p(\lambda\mid x, a, b) \\
+                    &= \argmax_\lambda\,\log \p(\lambda\mid x, a, b) \\
+                    &= \argmax_\lambda\,\log (\p(x\mid\lambda)\,\p(\lambda\mid a,b)) \\
+                    &= \argmax_\lambda\,\log (\frac{b^a \lambda^{a-1} \exp(-b\lambda)}{\Gamma(a)} \frac{\lambda^x \exp(-\lambda)}{x!}) \\
+                    &= \argmax_\lambda\,(a-1+x)\log \lambda -(b+1)\lambda + const 
+    \end{split}
+  \end{equation*}
+  In order to maximize the function, compute the derivative:
+  \begin{equation*}
+    \frac{\partial}{\partial\lambda}((a-1+x)\log \lambda -(b+1)\lambda + const) = \frac{a-1+x}{\lambda}-b-1 \stackrel{!}{=} 0
+  \end{equation*}
+  Then we get
+  \begin{equation*}
+    \lambda = \frac{x+a-1}{b+1}
+  \end{equation*}
+  Hence $\lambda_{MAP}=\frac{x+a-1}{b+1}$.
+
+
+
+
  
 \end{document}

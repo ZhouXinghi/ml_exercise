@@ -1,0 +1,76 @@
+\documentclass[12pt]{scrartcl}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx,color}
+
+\addtokomafont{section}{\normalsize}
+\setlength{\parindent}{0pt}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\ve}{\vect}
+\newcommand\R{\mathbb{R}}
+\newcommand\E{\mathbb{E}}
+\newcommand{\fx}[1]{#1(\vect{x})}
+\newcommand{\diff}[1]{\,\mathrm{d}#1}
+
+\title{\large Machine Learning Exercise Sheet 2}
+\subtitle{\Large k-Nearest Neighbors and Decision Trees}
+\author{\large\bfseries Group\_369 \\
+        \large Fan \textsc{Xue} -- \texttt{fan98.xue@tum.de} \\
+        \large Xing \textsc{Zhou} -- \texttt{xing.zhou@tum.de} \\
+        \large Jianzhe \textsc{Liu} -- \texttt{jianzhe.liu@tum.de}}
+\date{\large \today}
+\begin{document}
+
+
+  \maketitle
+  \vspace{-1cm}
+  \noindent\rule{\textwidth}{0.4pt}
+ 
+  
+  \section*{Problem 6}
+  
+First let's compute the first and second derivative of $\theta^t(1-\theta)^h$, According to the derivative calculation rule:
+\begin{equation*}
+  \begin{aligned}
+    \frac{\diff{}}{\diff{\theta}}\theta^t(1-\theta)^h &= t\theta^{t-1}(1-\theta)^h + \theta^t(-1)h(1-\theta)^{h-1}  \\
+                &= \theta^{t-1}(1-\theta)^{h-1}*((1-\theta)t-\theta h)
+  \end{aligned}
+\end{equation*}
+\begin{equation*}
+  \begin{aligned}
+    \frac{\diff{}^2}{\diff{\theta}^2}\theta^t(1-\theta)^h &= \frac{\diff{}}{\diff{\theta}}\left( t\theta^{t-1}(1-\theta)^h + \theta^t(-1)h(1-\theta)^{h-1} \right)  \\
+                &= \theta^{t-2}(1-\theta)^{h-2}*((1-\theta)(t-1)-\theta(h-1))*((1-\theta)t-\theta h) - \theta^{t-1}(1-\theta)^{h-1}(t+h)
+  \end{aligned}
+\end{equation*}  
+It's quite obvious that as the derivation goes on, the result becomes much more complex, which is really hard for us to read and analyse.
+\\
+\\
+Then let's try computing the first and second derivative of $\log \theta^t(1-\theta)^h$:
+\[f(\theta) = \log \theta^t(1-\theta)^h = t\log \theta + h\log (1 - \theta)\]
+\begin{equation*}
+  \begin{aligned}
+    \frac{\diff{}}{\diff{\theta}}f(\theta) &= \frac{t}{\theta} - \frac{h}{1 - \theta}  \\
+  \end{aligned}
+\end{equation*}
+\begin{equation*}
+  \begin{aligned}
+    \frac{\diff{}^2}{\diff{\theta}^2}f(\theta) &= \frac{\diff{}}{\diff{\theta}}\left( \frac{t}{\theta} - \frac{h}{1 - \theta} \right)  \\
+                &= -\frac{t}{\theta^2} - \frac{h}{(1 - \theta)^2}
+  \end{aligned}
+\end{equation*}   
+This time the result is much more clear, and it is of course easier for us to do the further calculation or analysis. 
+  
+  \section*{Problem 7}
+  
+To prove this, let's say we have an arbitrary local maximum $\theta_a$ in $\log f(\theta)$, obviously in any small range around $\theta_a$, we have $\log f(\theta_a) \geq \log f(\theta)$.
+\\
+\\
+Then we use function $exp$ to transform $\log f(\theta)$ into $f(\theta)$.
+\\
+\\
+Since function $exp$ is monotone, we have:
+\[f(\theta_a) = e^{\log f(\theta_a)} \geq f(\theta) = e^{\log f(\theta)}\]
+Therefore $\theta_a$ is also a maximum of $f(\theta)$.
+\\
+\\
+Conclusion: with the result of last problem, we know the using function $log$ can help us simplify the calculation and thus the further analysis. And with the result of this problem we know that by using $log$ transform, the feature of the original equations remain unchanged, which means we can safely apply this transform in further studies.
+\end{document}
