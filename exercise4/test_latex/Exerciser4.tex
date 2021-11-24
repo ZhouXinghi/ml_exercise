@@ -1,0 +1,140 @@
+\documentclass[12pt]{scrartcl}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+\addtokomafont{section}{\normalsize}
+\setlength{\parindent}{0pt}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\ve}{\vect}
+\newcommand\R{\mathbb{R}}
+\newcommand\E{\mathbb{E}}
+\newcommand{\fx}[1]{#1(\vect{x})}
+\newcommand{\diff}[1]{\,\mathrm{d}#1}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\p}[1][\mathrm{p}]{\mathrm{#1}}
+
+\title{\large Machine Learning Exercise Sheet 1}
+\subtitle{\Large Math Refresher}
+\author{\large\bfseries Group\_369 \\
+        \large Fan \textsc{Xue} -- \texttt{fan98.xue@tum.de} \\
+        \large Xing \textsc{Zhou} -- \texttt{xing.zhou@tum.de} \\
+        \large Jianzhe \textsc{Liu} -- \texttt{jianzhe.liu@tum.de}}
+\date{\large \today}
+\begin{document}
+
+  \maketitle
+  \vspace{-1cm}
+  \noindent\rule{\textwidth}{0.4pt}
+  \section*{Problem 6}
+  \[ \left|\begin{bmatrix} 
+    1 & 2 & 3 \\ 
+    4 & ui & \ve{w}
+\end{bmatrix} 
+  \right| 
+  \int_{a}^{b}  
+  \sin x
+  \cos ab
+  _\text{fd} 
+  ab_\text{fdsf} 
+  ab_{fdsf}
+  \vec{v}
+  \] 
+
+    
+  We have, \[
+  p\left( \ve{w}, \beta \mid D \right) \propto p\left( D\mid \ve{w}, \beta \right) \cdot p\left( \ve{w}, \beta \right) 
+  \] 
+  So,\[
+  \log p\left( \ve{w}, \beta \mid D \right) = \log \prod_{n=1}^{N}\sqrt{ \frac{\beta}{2\pi} } e^{-\frac{\beta}{2}  }   
+  \]
+  \section*{Problem 7}
+  We have \[
+  p\left( \ve{w}, \beta   \mid D \right) \propto p\left( D  \mid \ve{w}, \beta \right)  \cdot p\left( \ve{w}, \beta \right) 
+  \] 
+  So \[
+      \begin{split}
+          \log p\left( \ve{w}, \beta,  \mid D \right) &= \log \prod_{i=1}^{N} \sqrt{\frac{\beta}{2\pi}}e^{-\frac{\beta}{2}\left( \ve{\Phi w} - \ve{y} \right) ^{T}\left( \ve{\Phi w} - \ve{y} \right)  } \\ 
+ &\ \ + \log \left( \frac{1}{\sqrt{\left( 2\pi \right) ^{M}|\beta^{-1}\ve{S_0} |} }e ^{-\frac{\beta}{2} \left( \ve{w} - \ve{m_0} \right)^{T} \ve{S_0}^{-1}\left(\ve{w} - \ve{m_0}\right) } \cdot \frac{b_0^{a_0}\beta^{a_0-1}e ^{-b_0\beta} }{\Gamma (a_0)}  \right)   \\
+ &=  \frac{M}{2}\log\beta - \frac{\beta}{2}\ve{w}^{T}\left( \ve{S_0^{-1} + \ve{\Phi}^{T}\ve{\Phi}} \right) \ve{w} + \beta\left( \ve{m_0}^{T}\ve{S_0}^{-1}+\ve{y}^{T}\ve{\Phi}\right) \ve{S_NS_N^{-1}}    \\
+ &\ \ + \left( \frac{N}{2} + a_0 - 1 \right) \log \beta - \left( b_0+\frac{1}{2}\ve{y}^{T}\ve{y} + \frac{1}{2}\ve{m_0}^{T}\ve{S}^{-1}\ve{m_0} \right) \beta + \text{const}. \\
+      \end{split}
+      \]
+We can expand the $p\left( \ve{w}, \beta  \mid D \right) $\[
+    \begin{split}
+        \log p\left( \ve{w}, \beta  \mid  D \right) &= \frac{M}{2}\log \beta - \frac{\beta}{2}\ve{w}^{-1}\ve{S_N}^{-1}\ve{w} + \beta \ve{m_N}^{T}\ve{S_N}^{-1}\ve{w}+ \left( a_N - 1 \right)\log \beta \\ 
+&\ \ - \beta\left( \frac{1}{2}\ve{m_N}^{T}\ve{S_N}^{-1}\ve{m_N} - b_N \right) \\ 
+    \end{split}
+\] 
+    Comparing the two expressions, we can find that \[
+        \begin{split}
+            \ve{m_N} &= \left( \left( \ve{m_0}^{T}\ve{S_0}^{-1} + \ve{y}^{T}\ve{\Phi} \right) \ve{S_N} \right) ^{T} \\ 
+            \ve{S_N} &= \left( \ve{S_0}^{-1}+\ve{\Phi}^{T}\ve{\Phi} \right) ^{-1} \\
+            a_N &= \frac{N}{2}+a_0 \\
+            b_N &= b_0+ \frac{1}{2}\left( \ve{m_0}^{T}\ve{S_0}^{-1}\ve{m_0} - \ve{m_N}^{T}\ve{S_N}^{-1}\ve{m_N} + \ve{y}^{T}\ve{y}  \right)\\
+        \end{split}
+        \to  \to 
+        \]
+
+
+    
+  \section*{Problem 8}
+  \[
+      \begin{aligned}
+        E_{ridge}\left( \ve{w} \right) &=   \frac{1}{2} \sum^{N}_{i=1} \left( \ve{w}^{T} \ve{\phi}\ve{x_i} - y_i \right) ^{2} + \frac{\lambda}{2}\ve{w}^{T}\ve{w} \\ &= \frac{1}{2}\left( \ve{\Phi w} - \ve{y} \right) ^{T}\left( \ve{\Phi w}- y \right)  + \frac{\lambda}{2}\ve{w}^{T}w  \\
+      \end{aligned}
+  \] 
+  The gradient of $E_{ridge}\left( \ve{w} \right)$ is
+  \[
+      \begin{aligned}
+  \nabla _{\ve{w}}E_{ridge}\left( \ve{w} \right) &=  \ve{\Phi}^{T}\ve{\Phi w}  - \ve{\Phi}^{T}\ve{y} + \lambda \ve{w} \\ &= \left( \ve{\Phi}^{T}\ve{\Phi} + \lambda \ve{I} \right) \ve{w} - \ve{\Phi}^{T}\ve{y} 
+      \end{aligned}
+  \] 
+  Let the gradient be zero, we get 
+  \[
+   \left( \ve{\Phi}^{T}\ve{\Phi} + \lambda \ve{I} \right) \ve{w} - \ve{\Phi}^{T}\ve{y} = 0 
+  \] 
+  Therefore
+  \[
+  \ve{w^{*}} = \left( \ve{\Phi}^{T}\ve{\Phi} + \lambda \ve{I} \right) ^{-1}\ve{\Phi}^{T}\ve{y}  
+  \] 
+  If $N < M$, the matrix $\ve{\Phi}^{T}\ve{\Phi} \in \mathbb{R}^{M\times M}$ is not invertible. The equation $   \left( \ve{\Phi}^{T}\ve{\Phi} \right) \ve{w} - \ve{\Phi}^{T}\ve{y} = 0 
+$ does not have only solution.
+
+    With the regulation, the normal equation is changed to $\left( \ve{\Phi}^{T}\ve{\Phi} + \lambda \ve{I} \right) \ve{w} - \ve{\Phi}^{T}\ve{y} = 0$, and the problem is fixed.
+
+  \section*{Problem 9}
+  \begin{enumerate}[label = \alph*)]
+      \item We want to find the same prediction, which means
+      \[
+          \hat{y_{i}} = {\ve{w}^{*}}^{T}\ve{x_i} =\ve{w}_{new}^{T}x_{i, new} = a\ve{w}_{new}^{T} \ve{x_i} \\
+      \] 
+      Hence,
+      \[
+      \ve{w_{new}} = \frac{1}{a}\ve{w^{*}} \\
+      \] 
+  \item According to the result of Problem 8, the solution for $\ve{w^{*}}$ on the original dataset $\ve{X}$ is \[
+  \ve{w^{*}} =\left( \ve{X}^{T}\ve{X} + \lambda \ve{I} \right)^{-1}\ve{X}^{T}\ve{y}   \\
+  \] 
+  We want to find the new regulation factor $\lambda_{new}$ for $\ve{X_{new}}$, it is to find the $\lambda_{new}$, such that $\ve{w_{new}^{*}}  = \frac{1}{a}\ve{w^{*}}$.
+
+  We have \[
+      \begin{split}
+      \ve{w_{new}} &= \left( \ve{X_{new}}^{T}\ve{X_{new}} + \lambda_{new}\ve{I} \right) ^{-1}\ve{X_{new}}^{T}\ve{y} \\
+      &=\left( a^2 \ve{X}^{T}\ve{X} + \lambda_{new}\ve{I}\right)^{-1}a\ve{X}^{T}\ve{y} \\
+      \end{split}
+  \] 
+  We can observe that if we let $\lambda_{new} = a^2\lambda$, we will have \[
+  \begin{split}
+      \ve{w_{new}} &= a\left( a^2\ve{X}^{T}\ve{X} + a^2\lambda\ve{I} \right) ^{-1}a\ve{X}^{T}\ve{y} \\
+      &= \frac{1}{a} \left( \ve{X}^{T}\ve{X} + \lambda \ve{I} \right)^{-1}\ve{X}^{T}\ve{y}   \\
+      &= \frac{1}{a}\ve{w^{*}} \\
+  \end{split}
+  \] which satisfies the condition.
+  \end{enumerate}
+
+
+
+ 
+\end{document}

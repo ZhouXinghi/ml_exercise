@@ -1,0 +1,118 @@
+\documentclass[12pt]{scrartcl}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+\addtokomafont{section}{\normalsize}
+\setlength{\parindent}{0pt}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\ve}{\vect}
+\newcommand\R{\mathbb{R}}
+\newcommand\E{\mathbb{E}}
+\newcommand{\fx}[1]{#1(\vect{x})}
+\newcommand{\diff}[1]{\,\mathrm{d}#1}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\p}[1][\mathrm{p}]{\mathrm{#1}}
+
+\title{\large Machine Learning Exercise Sheet 1}
+\subtitle{\Large Math Refresher}
+\author{\large\bfseries Group\_369 \\
+        \large Fan \textsc{Xue} -- \texttt{fan98.xue@tum.de} \\
+        \large Xing \textsc{Zhou} -- \texttt{xing.zhou@tum.de} \\
+        \large Jianzhe \textsc{Liu} -- \texttt{jianzhe.liu@tum.de}}
+\date{\large \today}
+\begin{document}
+
+  \maketitle
+  \vspace{-1cm}
+  \noindent\rule{\textwidth}{0.4pt}
+  \section*{Problem 6}
+  \section*{Problem 7}
+  We have \[
+  p\left( \boldsymbol{w}, \beta   \mid D \right) \propto p\left( D  \mid \boldsymbol{w}, \beta \right)  \cdot p\left( \boldsymbol{w}, \beta \right) 
+  \] 
+  So \[
+      \begin{split}
+          \log p\left( \boldsymbol{w}, \beta,  \mid D \right) &= \log \prod_{i=1}^{N} \sqrt{\frac{\beta}{2\pi}}e^{-\frac{\beta}{2}\left( \boldsymbol{\Phi w} - \boldsymbol{y} \right) ^{T}\left( \boldsymbol{\Phi w} - \boldsymbol{y} \right)  } \\ 
+ &\ \ + \log \left( \frac{1}{\sqrt{\left( 2\pi \right) ^{M}|\beta^{-1}\boldsymbol{S_0} |} }e ^{-\frac{\beta}{2} \left( \boldsymbol{w} - \boldsymbol{m_0} \right)^{T} \boldsymbol{S_0}^{-1}\left(\boldsymbol{w} - \boldsymbol{m_0}\right) } \cdot \frac{b_0^{a_0}\beta^{a_0-1}e ^{-b_0\beta} }{\Gamma (a_0)}  \right)   \\
+ &=  \frac{M}{2}\log\beta - \frac{\beta}{2}\boldsymbol{w}^{T}\left( \boldsymbol{S_0^{-1} + \boldsymbol{\Phi}^{T}\boldsymbol{\Phi}} \right) \boldsymbol{w} + \beta\left( \boldsymbol{m_0}^{T}\boldsymbol{S_0}^{-1}+\boldsymbol{y}^{T}\boldsymbol{\Phi}\right) \boldsymbol{S_NS_N^{-1}}    \\
+ &\ \ + \left( \frac{N}{2} + a_0 - 1 \right) \log \beta - \left( b_0+\frac{1}{2}\boldsymbol{y}^{T}\boldsymbol{y} + \frac{1}{2}\boldsymbol{m_0}^{T}\boldsymbol{S}^{-1}\boldsymbol{m_0} \right) \beta + \text{const}. \\
+      \end{split}
+      \]
+We can expand the $p\left( \boldsymbol{w}, \beta  \mid D \right) $\[
+    \begin{split}
+        \log p\left( \boldsymbol{w}, \beta  \mid  D \right) &= \frac{M}{2}\log \beta - \frac{\beta}{2}\boldsymbol{w}^{-1}\boldsymbol{S_N}^{-1}\boldsymbol{w} + \beta \boldsymbol{m_N}^{T}\boldsymbol{S_N}^{-1}\boldsymbol{w}+ \left( a_N - 1 \right)\log \beta \\ 
+&\ \ - \beta\left( \frac{1}{2}\boldsymbol{m_N}^{T}\boldsymbol{S_N}^{-1}\boldsymbol{m_N} - b_N \right) \\ 
+    \end{split}
+\] 
+    Comparing the two expressions, we can find that \[
+        \begin{split}
+            \boldsymbol{m_N} &= \left( \left( \boldsymbol{m_0}^{T}\boldsymbol{S_0}^{-1} + \boldsymbol{y}^{T}\boldsymbol{\Phi} \right) \boldsymbol{S_N} \right) ^{T} \\ 
+            \boldsymbol{S_N} &= \left( \boldsymbol{S_0}^{-1}+\boldsymbol{\Phi}^{T}\boldsymbol{\Phi} \right) ^{-1} \\
+            a_N &= \frac{N}{2}+a_0 \\
+            b_N &= b_0+ \frac{1}{2}\left( \boldsymbol{m_0}^{T}\boldsymbol{S_0}^{-1}\boldsymbol{m_0} - \boldsymbol{m_N}^{T}\boldsymbol{S_N}^{-1}\boldsymbol{m_N} + \boldsymbol{y}^{T}\boldsymbol{y}  \right)\\
+        \end{split}
+        \]
+
+
+    
+  \section*{Problem 8}
+  \[
+      \begin{aligned}
+        E_{ridge}\left( \boldsymbol{w} \right) &=   \frac{1}{2} \sum^{N}_{i=1} \left( \boldsymbol{w}^{T} \boldsymbol{\phi}\boldsymbol{x_i} - y_i \right) ^{2} + \frac{\lambda}{2}\boldsymbol{w}^{T}\boldsymbol{w} \\ &= \frac{1}{2}\left( \boldsymbol{\Phi w} - \boldsymbol{y} \right) ^{T}\left( \boldsymbol{\Phi w}- y \right)  + \frac{\lambda}{2}\boldsymbol{w}^{T}w  \\
+      \end{aligned}
+  \] 
+  The gradient of $E_{ridge}\left( \boldsymbol{w} \right)$ is
+  \[
+      \begin{aligned}
+  \nabla _{\boldsymbol{w}}E_{ridge}\left( \boldsymbol{w} \right) &=  \boldsymbol{\Phi}^{T}\boldsymbol{\Phi w}  - \boldsymbol{\Phi}^{T}\boldsymbol{y} + \lambda \boldsymbol{w} \\ &= \left( \boldsymbol{\Phi}^{T}\boldsymbol{\Phi} + \lambda \boldsymbol{I} \right) \boldsymbol{w} - \boldsymbol{\Phi}^{T}\boldsymbol{y} 
+      \end{aligned}
+  \] 
+  Let the gradient be zero, we get 
+  \[
+   \left( \boldsymbol{\Phi}^{T}\boldsymbol{\Phi} + \lambda \boldsymbol{I} \right) \boldsymbol{w} - \boldsymbol{\Phi}^{T}\boldsymbol{y} = 0 
+  \] 
+  Therefore
+  \[
+  \boldsymbol{w^{*}} = \left( \boldsymbol{\Phi}^{T}\boldsymbol{\Phi} + \lambda \boldsymbol{I} \right) ^{-1}\boldsymbol{\Phi}^{T}\boldsymbol{y}  
+  \] 
+  If $N < M$, the matrix $\boldsymbol{\Phi}^{T}\boldsymbol{\Phi} \in \mathbb{R}^{M\times M}$ is not invertible. The equation $   \left( \boldsymbol{\Phi}^{T}\boldsymbol{\Phi} \right) \boldsymbol{w} - \boldsymbol{\Phi}^{T}\boldsymbol{y} = 0 
+$ does not have only solution.
+
+    With the regulation, the normal equation is changed to $\left( \boldsymbol{\Phi}^{T}\boldsymbol{\Phi} + \lambda \boldsymbol{I} \right) \boldsymbol{w} - \boldsymbol{\Phi}^{T}\boldsymbol{y} = 0$, and the problem is fixed.
+
+  \section*{Problem 9}
+  \begin{enumerate}[label = \alph*)]
+      \item We want to find the same prediction, which means
+      \[
+          \hat{y_{i}} = {\boldsymbol{w}^{*}}^{T}\boldsymbol{x_i} =\boldsymbol{w}_{new}^{T}x_{i, new} = a\boldsymbol{w}_{new}^{T} \boldsymbol{x_i} \\
+      \] 
+      Hence,
+      \[
+      \boldsymbol{w_{new}} = \frac{1}{a}\boldsymbol{w^{*}} \\
+      \] 
+  \item According to the result of Problem 8, the solution for $\boldsymbol{w^{*}}$ on the original dataset $\boldsymbol{X}$ is \[
+  \boldsymbol{w^{*}} =\left( \boldsymbol{X}^{T}\boldsymbol{X} + \lambda \boldsymbol{I} \right)^{-1}\boldsymbol{X}^{T}\boldsymbol{y}   \\
+  \] 
+  We want to find the new regulation factor $\lambda_{new}$ for $\boldsymbol{X_{new}}$, it is to find the $\lambda_{new}$, such that $\boldsymbol{w_{new}^{*}}  = \frac{1}{a}\boldsymbol{w^{*}}$.
+
+  We have \[
+      \begin{split}
+      \boldsymbol{w_{new}} &= \left( \boldsymbol{X_{new}}^{T}\boldsymbol{X_{new}} + \lambda_{new}\boldsymbol{I} \right) ^{-1}\boldsymbol{X_{new}}^{T}\boldsymbol{y} \\
+      &=\left( a^2 \boldsymbol{X}^{T}\boldsymbol{X} + \lambda_{new}\boldsymbol{I}\right)^{-1}a\boldsymbol{X}^{T}\boldsymbol{y} \\
+      \end{split}
+  \] 
+  We can observe that if we let $\lambda_{new} = a^2\lambda$, we will have \[
+  \begin{split}
+      \boldsymbol{w_{new}} &= a\left( a^2\boldsymbol{X}^{T}\boldsymbol{X} + a^2\lambda\boldsymbol{I} \right) ^{-1}a\boldsymbol{X}^{T}\boldsymbol{y} \\
+      &= \frac{1}{a} \left( \boldsymbol{X}^{T}\boldsymbol{X} + \lambda \boldsymbol{I} \right)^{-1}\boldsymbol{X}^{T}\boldsymbol{y}   \\
+      &= \frac{1}{a}\boldsymbol{w^{*}} \\
+  \end{split}
+  \] which satisfies the condition.
+  \end{enumerate}
+
+
+
+ 
+\end{document}
