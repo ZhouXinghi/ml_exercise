@@ -1,0 +1,163 @@
+\documentclass[12pt]{scrartcl}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+\addtokomafont{section}{\normalsize}
+\setlength{\parindent}{0pt}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\ve}{\vect}
+\newcommand\R{\mathbb{R}}
+\newcommand\E{\mathbb{E}}
+\newcommand{\fx}[1]{#1(\vect{x})}
+\newcommand{\diff}[1]{\,\mathrm{d}#1}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\p}[1][\mathrm{p}]{\mathrm{#1}}
+
+\title{\large Machine Learning Exercise Sheet 5}
+\subtitle{\Large Linear Classification}
+\author{\large\bfseries Group\_369 \\
+        \large Fan \textsc{Xue} -- \texttt{fan98.xue@tum.de} \\
+        \large Xing \textsc{Zhou} -- \texttt{xing.zhou@tum.de} \\
+        \large Jianzhe \textsc{Liu} -- \texttt{jianzhe.liu@tum.de}}
+\date{\large \today}
+\begin{document}
+
+  \maketitle
+  \vspace{-1cm}
+  \noindent\rule{\textwidth}{0.4pt}
+    \section*{Problem 3}
+
+  \begin{enumerate}[label=\alph*)]
+    \item Bernoulli distribution
+    \item $x$ are classified as class 1 if $\p(y=1 \mid x)>\p(y=0 \mid x)$, which is equivalent to
+    \begin{equation*}
+      \frac{\p(y=1\mid x)}{\p(y=0\mid x)} > 1
+    \end{equation*}
+    We take the logarithm of both sides and we get
+    \begin{equation*}
+      \log \frac{\p(y=1\mid x)}{\p(y=0\mid x)} > 0
+    \end{equation*}
+    Simplify the left side
+    \begin{equation*}
+      \begin{split}
+        \log \frac{\p(y=1\mid x)}{\p(y=0\mid x)} &= \log \frac{\p(x\mid y=1)\p(y=1)}{\p(x\mid y=0)\p(y=0)} \\
+        &= \log \frac{\p(x\mid y=1)}{\p(x\mid y=0)} \\
+        &= \log \frac{\lambda_1\exp(-\lambda_1 x)}{\lambda_0 \exp(-\lambda_0 x)} \\
+        &= \log\frac{\lambda_1}{\lambda_0}-(\lambda_1-\lambda_0)x
+      \end{split}
+    \end{equation*}
+    Consider both sides and simplify the inequality, we get
+    \begin{equation*}
+      (\lambda_1-\lambda_0)x < \log \lambda_1 - \log \lambda_0
+    \end{equation*}
+    Since $\lambda_1 - \lambda_0$ can be negative, we have
+    \begin{equation*}
+      \begin{cases}
+        x \in \left[0, \frac{\log\lambda_1 - \log\lambda_0}{\lambda_1 - \lambda_0} \right) & \text{if } \lambda_1 > \lambda_0 \\
+        x \in \left( \frac{\log\lambda_1 - \log\lambda_0}{\lambda_1 - \lambda_0}, \infty \right) & \text{otherwise.}
+      \end{cases}
+    \end{equation*} 
+  \end{enumerate}
+  \section*{Problem 4}
+  According to the given conditions in the question we can first have following loss function:
+\begin{equation*}
+    \begin{aligned}
+    E(w) &= -\log p(\ve{y}|\ve{w},\ve{X})\\
+         &= - \sum_{i=1}^N y_i \log \sigma(\ve{w}^T\ve{x_i}) + (1 - y_i)\log (1-\sigma(\ve{w}^T\ve{x_i}))
+    \end{aligned}
+  \end{equation*}
+  where:
+  \[\sigma(a)=\left(\frac{1}{1 - e^{-a}}\right)\]
+  and:
+\begin{equation}
+\left\{
+\begin{aligned}
+\ve{w}^T\ve{x_i} & > 0,  \text{if} &  y_i = 1 \nonumber\\ 
+\ve{w}^T\ve{x_i} & < 0,  \text{if} &  y_i = 0 \\
+\end{aligned}
+\right.
+\end{equation}
+To get the optimized classification, we need to find the minimum of function $E(w)$.
+\\
+\\
+Assuming that now we have $\ve{w} \rightarrow \infty$, then:
+\begin{equation*}
+    \begin{aligned}
+    \mathop{E(w)}\limits_{\ve{w} \rightarrow \infty} 
+        &= - \left(  \sum_{\substack{i=1\\y_i = 1}}^N  \log \mathop{\sigma(\ve{w}^T\ve{x_i})}\limits_{\ve{w} \rightarrow \infty}  + \sum_{\substack{i=1\\y_i = 0}}^N  \log (1-\mathop{\sigma(\ve{w}^T\ve{x_i})}\limits_{\ve{w} \rightarrow \infty})  \right)\\
+        &= 0
+    \end{aligned}
+  \end{equation*}
+  This result clearly shows that the maximum likelihood parameter $\ve{w}$ of a logistic regression model has $\left| \left|w \right|\right| \rightarrow \infty$, because only when $\ve{w} \rightarrow \infty$, can we achieve that minimum of $E(w)$.
+  \\
+  \\
+  What's more, if we want to get a $\ve{w}$ of finite magnitude, we can use weight regularization, for example we define $E_{new}(w) = E(w) + \ve{w}^T\ve{w}$.
+  \\
+  \\
+  In this way, it's obvious that when $\ve{w} \rightarrow \infty$, $E_{new}(w)$ is also infinite, then the optimized answer should be somewhere between 0 and infinite, thus finite.
+  \section*{Problem 5}
+
+  The derivation is in follow:
+  \begin{equation*}
+    \begin{split}
+	    \frac{e^{\vect{w}_1^T\vect{x}}}{e^{\vect{w}_1^T\vect{x}}+e^{\vect{w}_0^T\vect{x}}} &= \frac{1}{1+e^{\vect{w}_0^T\vect{x}-\vect{w}_1^T\vect{x}}} \\
+      &= \frac{1}{1+e^{-(\vect{w}_1-\vect{w}_0)^T\vect{x}}}\\
+      &= \sigma\left( (\vect{w}_1-\vect{w}_0)^T\vect{x} \right)
+    \end{split}
+  \end{equation*}
+  
+
+  % \begin{enumerate}[label=\alph*)]
+    % \item 
+  % \end{enumerate}
+
+  \section*{Problem 6}
+  This question can be proved by following steps:
+    \begin{equation*}
+    \begin{aligned}
+    \frac{\partial \sigma(a)}{\partial a} 
+                &= (-e^{-a})(-1)(1 - e^{-a})^{-2}\\
+                &= \left(\frac{1}{1 - e^{-a}} \right)\left(\frac{e^{-a}}{1 - e^{-a}}\right)\\
+                &=\left(\frac{1}{1 - e^{-a}}\right)\left(1-\frac{1}{1 - e^{-a}}\right)\\
+                &=\sigma(a)(1-\sigma(a))
+    \end{aligned}
+  \end{equation*} 
+  \section*{Problem 7}
+  Let $\phi\left( x_1,x_2 \right) = x_1x_2 $, we can observe that for all crosses $\phi\left( x_1, x_2 \right) \le 0$ 
+  and for all circles $\phi\left( x_1, x_2 \right)  \ge  0$, which means it is linearly separable.
+  We can separate the crosses and circles with a single hyperplane $\phi\left( x_1, x_2 \right) = 0$.
+
+  \section*{Problem 8}
+  On the boundary $\Gamma$, the $\ve{x}$ must realize \[
+  p\left( y = 1 \mid \ve{x} \right) = p \left( y = 0 \mid \ve{x} \right) 
+  \]
+  It is equivalent to \[
+  \log \frac{p\left( y = 1 \mid \ve{x} \right) }{p\left( y = 0 \mid  \ve{x} \right) } = 0
+  \] 
+  We expand \[
+  \begin{split}
+      \log \frac{p\left( y = 1 \mid \ve{x} \right) }{p\left( y = 0 \mid  \ve{x} \right) } &= 
+      \frac{\frac{1}{\left( 2\pi \right) ^{\frac{D}{2}} \left| \Sigma_1 \right|^{\frac{1}{2}}}e^{-\frac{1}{2}\left( \ve{x} - \ve{\mu_1} \right) ^{T}\Sigma_1^{-1}\left( x - \mu_1 \right) } \cdot \pi_1 }{\frac{1}{\left( 2\pi \right) ^{\frac{D}{2}} \left| \Sigma_0 \right|^{\frac{1}{2}}}e^{-\frac{1}{2}\left( \ve{x} - \ve{\mu_0} \right) ^{T}\Sigma_0^{-1}\left( x - \mu_0 \right) } \cdot \pi_0 }\\
+      &= \frac{1}{2}\ve{x}^{T}\left( \Sigma_0^{-1} - \Sigma_1^{-1} \right)\ve{x}
+      + \ve{x}^{T}\left( \Sigma_1^{-1}\ve{\mu_1} - \ve{\Sigma_0}^{-1}\ve{\mu}_0 \right) \\
+      &\ \ \ \ - \frac{1}{2} \ve{\mu}_1^{T}\ve{\Sigma}_1^{-1}\ve{\mu}_1 + \frac{1}{2} \ve{\mu}_0^{T}\ve{\Sigma}_0^{-1}\ve{\mu}_0 
+      + \log \frac{\pi_1}{\pi_0} + \frac{1}{2} \log \frac{\left| \ve{\Sigma}_0 \right| }{\left|\ve{\Sigma}_1\right|} \\
+      &= \ve{x}^T \ve{A}\ve{x} + \ve{b}^T\ve{x} + c \\
+  \end{split}
+  \]  
+  where we define \[
+  \begin{split}
+      \ve{A} &= \frac{1}{2}\left( \ve{\Sigma}_0^{-1} -\ve{ \Sigma}_1^{-1} \right) \\
+      \ve{b} &=  \Sigma_1^{-1}\ve{\mu_1} - \ve{\Sigma_0}^{-1}\ve{\mu}_0\\
+      c &=  - \frac{1}{2} \ve{\mu}_1^{T}\ve{\Sigma}_1^{-1}\ve{\mu}_1 + \frac{1}{2} \ve{\mu}_0^{T}\ve{\Sigma}_0^{-1}\ve{\mu}_0 
+          + \log \frac{\pi_1}{\pi_0} + \frac{1}{2} \log \frac{\left| \ve{\Sigma}_0 \right| }{\left|\ve{\Sigma}_1\right|} \\
+  \end{split}
+  \] 
+
+
+  
+
+ 
+\end{document}
