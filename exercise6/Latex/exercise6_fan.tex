@@ -1,0 +1,59 @@
+\documentclass[12pt]{scrartcl}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+\addtokomafont{section}{\normalsize}
+\setlength{\parindent}{0pt}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\ve}{\vect}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\fx}[1]{#1(\vect{x})}
+\newcommand{\diff}[1]{\mathrm{d}#1}
+\newcommand{\p}[1][\mathrm{p}]{\mathrm{#1}}
+
+\title{\large Machine Learning Exercise Sheet 1}
+\subtitle{\Large Math Refresher}
+\author{\large\bfseries Group\_369 \\
+        \large Fan \textsc{Xue} -- \texttt{fan98.xue@tum.de} \\
+        \large Xing \textsc{Zhou} -- \texttt{xing.zhou@tum.de} \\
+        \large Jianzhe \textsc{Liu} -- \texttt{jianzhe.liu@tum.de}}
+\date{\large \today}
+\begin{document}
+  
+  \maketitle
+  \vspace{-1cm}
+  \noindent\rule{\textwidth}{0.4pt}
+  
+  \section*{Problem 4}
+
+  \begin{enumerate}[label=\alph*)]
+    \item This statement is false, which can be proven by a counterexample. For that, we neead to adopt an inference that the second derivation of a convex function is non-negative.
+    We take $f(x)=x^2$ and $g(x)=-x$, both of which are convex funtions, since $\dfrac{\mathrm{d}^{2}f(x)}{\mathrm{d}x^{2}}=2 \ge 0$ and $\dfrac{\mathrm{d^{2}}g(x)}{\mathrm{d}x^{2}}=0 \ge 0$.
+    Then we take the combination of the two functions as $h(x)=g(f(x))$, and we have:
+    \begin{equation*}
+      \frac{\mathrm{d^{2}}}{\mathrm{d}x^{2}}h(x)=-2 \le 0.
+    \end{equation*}
+    That means $h(x)=g(f(x))$ is non-convex.
+
+    \item This statement is true. We prove it with the definition of convex function. We take $h(x)=g(f(x))$
+    For $\forall x_{1},x_{2}\in \R$ and $t \in (0,1)$, since $f(x)$ is convex we have
+    \begin{equation*}
+      f\left( tx_{1}+(1-t)x_{2} \right) \le f\left( tx_{1} \right) + f\left( (1-t)x_{2} \right).
+    \end{equation*}
+    Since $g(x)$ is non-decreasing and convex, we have
+    \begin{align}
+      g\left(f\left( tx_{1}+(1-t)x_{2} \right)\right) &\le g\left( f\left( tx_{1} \right) + f\left( (1-t)x_{2} \right) \right) \\
+      g\left( tf(x_1) + (1-t)f(x_2) \right) &\le tg\left( f(x_1) \right) + (1-t)g\left( f(x_2) \right).
+    \end{align}
+    Combine (1) and (2), we have
+    \begin{align*}
+      g\left(f\left( tx_{1}+(1-t)x_{2} \right)\right) &\le tg\left( f(x_1) \right) + (1-t)g\left( f(x_2) \right) \\
+      &\Updownarrow \\
+      h\left( tx_{1}+(1-t)x_{2} \right) &\le th(x_1) + (1-t)h(x_2),
+    \end{align*}
+    which proves $h(x)=g(f(x))$ is convex.
+  \end{enumerate}
+  \end{document}
